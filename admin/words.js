@@ -6,11 +6,11 @@
 systemDictionary = {
     "add_device": {
         "en": "Add device",
-        "de": "Ger\u00e4t hinzuf\u00fcgen"
+        "de": "Gerät hinzufügen"
     },
     "property_id": {
         "en": "Property ID",
-        "de": "Property\u2011ID"
+        "de": "Property‑ID"
     },
     "instance": {
         "en": "Instance",
@@ -18,15 +18,15 @@ systemDictionary = {
     },
     "object_type": {
         "en": "Object type",
-        "de": "Objekt\u2011Typ"
+        "de": "Objekt‑Typ"
     },
     "device_id": {
         "en": "Device ID",
-        "de": "Ger\u00e4te\u2011ID"
+        "de": "Geräte‑ID"
     },
     "ip_address": {
         "en": "IP address",
-        "de": "IP\u2011Adresse"
+        "de": "IP‑Adresse"
     },
     "name": {
         "en": "Name",
@@ -34,7 +34,7 @@ systemDictionary = {
     },
     "manual_devices": {
         "en": "Manual BACnet devices",
-        "de": "Manuelle BACnet\u2011Ger\u00e4te"
+        "de": "Manuelle BACnet‑Geräte"
     },
 	'bacnet adapter settings': {
 		'en': 'Adapter settings for bacnet',

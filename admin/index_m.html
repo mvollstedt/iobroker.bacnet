@@ -91,7 +91,7 @@
 	</div>
 
 
-<!-- BACnet manual devices table -->
+<!-- BACNET_DEVICES_BLOCK -->
 <div class="row">
   <div class="col s12">
     <h6 class="translate">manual_devices</h6>
@@ -114,21 +114,22 @@
 </div>
 
 
+<!-- BACNET_DEVICES_SCRIPT -->
 <script>
 (function () {
   function addRow(dev) {
     dev = dev || {};
     var tbody = document.getElementById('devices-tbody');
+    if (!tbody) return;
     var tr = document.createElement('tr');
 
-    function tdInput(type, key, placeholder) {
+    function tdInput(type, key) {
       var td = document.createElement('td');
       var input = document.createElement('input');
       input.type = type;
       input.className = 'value';
       input.dataset.field = key;
       if (dev[key] !== undefined && dev[key] !== null) input.value = dev[key];
-      if (placeholder) input.placeholder = placeholder;
       input.addEventListener('change', function () { if (typeof onChange === 'function') onChange(); });
       td.appendChild(input);
       return td;
@@ -156,24 +157,30 @@
 
   var onChange = null;
 
-  // Patch load and save
-  var oldLoad = load;
-  load = function (settings, _onChange) {
+  var oldLoad = window.load;
+  window.load = function (settings, _onChange) {
     onChange = _onChange;
-    oldLoad(settings, _onChange);
+    if (typeof oldLoad === 'function') oldLoad(settings, _onChange);
     var list = (settings && settings.devices) || [];
-    document.getElementById('devices-tbody').innerHTML = '';
+    var tbody = document.getElementById('devices-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
     list.forEach(function (d) { addRow(d); });
-    document.getElementById('devices-add').addEventListener('click', function () {
-      addRow({});
-      if (typeof onChange === 'function') onChange();
-    });
+    var addBtn = document.getElementById('devices-add');
+    if (addBtn && !addBtn.dataset.bound) {
+      addBtn.dataset.bound = '1';
+      addBtn.addEventListener('click', function () {
+        addRow({});
+        if (typeof onChange === 'function') onChange();
+      });
+    }
   };
 
-  var oldSave = save;
-  save = function (callback) {
+  var oldSave = window.save;
+  window.save = function (callback) {
     var list = [];
-    document.querySelectorAll('#devices-tbody tr').forEach(function (tr) {
+    var rows = document.querySelectorAll('#devices-tbody tr');
+    rows.forEach(function (tr) {
       var obj = {};
       tr.querySelectorAll('input.value').forEach(function (inp) {
         var key = inp.dataset.field;
@@ -181,7 +188,6 @@
         if (inp.type === 'number' && val !== '') val = Number(val);
         obj[key] = val;
       });
-      // Filter out empty rows
       if (Object.values(obj).some(function (v) { return v !== '' && v !== null && v !== undefined; })) {
         list.push(obj);
       }
@@ -193,7 +199,7 @@
         callback(obj);
       });
     } else {
-      callback({devices: list});
+      callback({ devices: list });
     }
   };
 })();

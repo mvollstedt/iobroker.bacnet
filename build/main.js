@@ -9,25 +9,7 @@ var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable 
-
-        if (Array.isArray(this.config.devices)) {
-            for (const dev of this.config.devices) {
-                this.log.info(`Manuelles Gerät: ${dev.name} (${dev.ip})`);
-                const idPrefix = `devices.${dev.name.replace(/\s+/g, "_")}`;
-                await this.setObjectNotExistsAsync(`${idPrefix}.info`, {
-                    type: "channel",
-                    common: { name: "Geräteinformationen" },
-                    native: {}
-                });
-                await this.setObjectNotExistsAsync(`${idPrefix}.value`, {
-                    type: "state",
-                    common: { name: "Wert", type: "mixed", role: "value", read: true, write: false },
-                    native: {}
-                });
-            }
-        }
-});
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
   return to;
 };
