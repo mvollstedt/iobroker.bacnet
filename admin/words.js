@@ -4,6 +4,38 @@
 'use strict';
 
 systemDictionary = {
+    "add_device": {
+        "en": "Add device",
+        "de": "Ger\u00e4t hinzuf\u00fcgen"
+    },
+    "property_id": {
+        "en": "Property ID",
+        "de": "Property\u2011ID"
+    },
+    "instance": {
+        "en": "Instance",
+        "de": "Instanz"
+    },
+    "object_type": {
+        "en": "Object type",
+        "de": "Objekt\u2011Typ"
+    },
+    "device_id": {
+        "en": "Device ID",
+        "de": "Ger\u00e4te\u2011ID"
+    },
+    "ip_address": {
+        "en": "IP address",
+        "de": "IP\u2011Adresse"
+    },
+    "name": {
+        "en": "Name",
+        "de": "Name"
+    },
+    "manual_devices": {
+        "en": "Manual BACnet devices",
+        "de": "Manuelle BACnet\u2011Ger\u00e4te"
+    },
 	'bacnet adapter settings': {
 		'en': 'Adapter settings for bacnet',
 		'de': 'Adaptereinstellungen für bacnet',

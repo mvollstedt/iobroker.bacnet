@@ -90,6 +90,115 @@
 
 	</div>
 
+
+<!-- BACnet manual devices table -->
+<div class="row">
+  <div class="col s12">
+    <h6 class="translate">manual_devices</h6>
+    <table id="devices-table" class="striped">
+      <thead>
+        <tr>
+          <th class="translate">name</th>
+          <th class="translate">ip_address</th>
+          <th class="translate">device_id</th>
+          <th class="translate">object_type</th>
+          <th class="translate">instance</th>
+          <th class="translate">property_id</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="devices-tbody"></tbody>
+    </table>
+    <a id="devices-add" class="btn waves-effect waves-light"><i class="material-icons left">add</i><span class="translate">add_device</span></a>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  function addRow(dev) {
+    dev = dev || {};
+    var tbody = document.getElementById('devices-tbody');
+    var tr = document.createElement('tr');
+
+    function tdInput(type, key, placeholder) {
+      var td = document.createElement('td');
+      var input = document.createElement('input');
+      input.type = type;
+      input.className = 'value';
+      input.dataset.field = key;
+      if (dev[key] !== undefined && dev[key] !== null) input.value = dev[key];
+      if (placeholder) input.placeholder = placeholder;
+      input.addEventListener('change', function () { if (typeof onChange === 'function') onChange(); });
+      td.appendChild(input);
+      return td;
+    }
+
+    tr.appendChild(tdInput('text', 'name'));
+    tr.appendChild(tdInput('text', 'ip'));
+    tr.appendChild(tdInput('number', 'deviceId'));
+    tr.appendChild(tdInput('text', 'objectType'));
+    tr.appendChild(tdInput('number', 'instance'));
+    tr.appendChild(tdInput('number', 'propertyId'));
+
+    var tdDel = document.createElement('td');
+    var btn = document.createElement('a');
+    btn.className = 'btn-flat red-text';
+    btn.innerHTML = '<i class="material-icons">delete</i>';
+    btn.addEventListener('click', function () {
+      tr.parentNode.removeChild(tr);
+      if (typeof onChange === 'function') onChange();
+    });
+    tdDel.appendChild(btn);
+    tr.appendChild(tdDel);
+    tbody.appendChild(tr);
+  }
+
+  var onChange = null;
+
+  // Patch load and save
+  var oldLoad = load;
+  load = function (settings, _onChange) {
+    onChange = _onChange;
+    oldLoad(settings, _onChange);
+    var list = (settings && settings.devices) || [];
+    document.getElementById('devices-tbody').innerHTML = '';
+    list.forEach(function (d) { addRow(d); });
+    document.getElementById('devices-add').addEventListener('click', function () {
+      addRow({});
+      if (typeof onChange === 'function') onChange();
+    });
+  };
+
+  var oldSave = save;
+  save = function (callback) {
+    var list = [];
+    document.querySelectorAll('#devices-tbody tr').forEach(function (tr) {
+      var obj = {};
+      tr.querySelectorAll('input.value').forEach(function (inp) {
+        var key = inp.dataset.field;
+        var val = inp.value;
+        if (inp.type === 'number' && val !== '') val = Number(val);
+        obj[key] = val;
+      });
+      // Filter out empty rows
+      if (Object.values(obj).some(function (v) { return v !== '' && v !== null && v !== undefined; })) {
+        list.push(obj);
+      }
+    });
+    if (typeof oldSave === 'function') {
+      oldSave(function (obj) {
+        obj = obj || {};
+        obj.devices = list;
+        callback(obj);
+      });
+    } else {
+      callback({devices: list});
+    }
+  };
+})();
+</script>
+
 </body>
 
 </html>
