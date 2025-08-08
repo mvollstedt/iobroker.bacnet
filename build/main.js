@@ -36,6 +36,14 @@ class Bacnet extends utils.Adapter {
    * Is called when databases are connected and adapter received configuration.
    */
   async onReady() {
+        const host = this.config.host || '';
+        const port = (this.config.port !== undefined && this.config.port !== null && this.config.port !== '') ? Number(this.config.port) : 47808;
+        await this.setObjectNotExistsAsync('connection', {type: 'channel', common: {name: 'Connection'}, native: {}});
+        await this.setObjectNotExistsAsync('connection.host', {type: 'state', common: {name:'Host', type:'string', role:'info.ip', read:true, write:true}, native:{}});
+        await this.setObjectNotExistsAsync('connection.port', {type: 'state', common: {name:'Port', type:'number', role:'info.port', read:true, write:true}, native:{}});
+        await this.setStateAsync('connection.host', host, true);
+        await this.setStateAsync('connection.port', port, true);
+
         const list = Array.isArray(this.config.datapoints) ? this.config.datapoints : [];
         for (const raw of list) {
             const name = String(raw).trim();
