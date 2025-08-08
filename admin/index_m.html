@@ -85,121 +85,69 @@
 			<div class="col s6 input-field">
 				<input type="text" class="value" id="option2" />
 				<label for="option2" class="translate">option2</label>
+
+            <div class="col s12 input-field">
+                <label for="manualList" class="active translate">manual_list</label>
+                <textarea id="manualList" class="value materialize-textarea" placeholder="item1\nitem2"></textarea>
+                <span class="helper-text translate">manual_list_hint</span>
+            </div>
+
 			</div>
 		</div>
 
 	</div>
 
 
-<!-- BACNET_DEVICES_BLOCK -->
-<div class="row">
-  <div class="col s12">
-    <h6 class="translate">manual_devices</h6>
-    <table id="devices-table" class="striped">
-      <thead>
-        <tr>
-          <th class="translate">name</th>
-          <th class="translate">ip_address</th>
-          <th class="translate">device_id</th>
-          <th class="translate">object_type</th>
-          <th class="translate">instance</th>
-          <th class="translate">property_id</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="devices-tbody"></tbody>
-    </table>
-    <a id="devices-add" class="btn waves-effect waves-light"><i class="material-icons left">add</i><span class="translate">add_device</span></a>
-  </div>
-</div>
-
-
-<!-- BACNET_DEVICES_SCRIPT -->
+<!-- minimal extension: keep current behavior; add default for option2 and manualList handling -->
 <script>
 (function () {
-  function addRow(dev) {
-    dev = dev || {};
-    var tbody = document.getElementById('devices-tbody');
-    if (!tbody) return;
-    var tr = document.createElement('tr');
-
-    function tdInput(type, key) {
-      var td = document.createElement('td');
-      var input = document.createElement('input');
-      input.type = type;
-      input.className = 'value';
-      input.dataset.field = key;
-      if (dev[key] !== undefined && dev[key] !== null) input.value = dev[key];
-      input.addEventListener('change', function () { if (typeof onChange === 'function') onChange(); });
-      td.appendChild(input);
-      return td;
-    }
-
-    tr.appendChild(tdInput('text', 'name'));
-    tr.appendChild(tdInput('text', 'ip'));
-    tr.appendChild(tdInput('number', 'deviceId'));
-    tr.appendChild(tdInput('text', 'objectType'));
-    tr.appendChild(tdInput('number', 'instance'));
-    tr.appendChild(tdInput('number', 'propertyId'));
-
-    var tdDel = document.createElement('td');
-    var btn = document.createElement('a');
-    btn.className = 'btn-flat red-text';
-    btn.innerHTML = '<i class="material-icons">delete</i>';
-    btn.addEventListener('click', function () {
-      tr.parentNode.removeChild(tr);
-      if (typeof onChange === 'function') onChange();
-    });
-    tdDel.appendChild(btn);
-    tr.appendChild(tdDel);
-    tbody.appendChild(tr);
-  }
-
-  var onChange = null;
-
   var oldLoad = window.load;
-  window.load = function (settings, _onChange) {
-    onChange = _onChange;
-    if (typeof oldLoad === 'function') oldLoad(settings, _onChange);
-    var list = (settings && settings.devices) || [];
-    var tbody = document.getElementById('devices-tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    list.forEach(function (d) { addRow(d); });
-    var addBtn = document.getElementById('devices-add');
-    if (addBtn && !addBtn.dataset.bound) {
-      addBtn.dataset.bound = '1';
-      addBtn.addEventListener('click', function () {
-        addRow({});
+  window.load = function (settings, onChange) {
+    if (typeof oldLoad === 'function') oldLoad(settings, onChange);
+    settings = settings || {};
+    // Default for option2: 0 if empty/undefined
+    var el2 = document.getElementById('option2');
+    if (el2) {
+      var val = settings.option2;
+      if (val === undefined || val === null || val === '') {
+        el2.value = 0;
         if (typeof onChange === 'function') onChange();
-      });
+      }
+    }
+    // manualList: array or string -> textarea
+    var ml = document.getElementById('manualList');
+    if (ml) {
+      var src = settings.manualList;
+      if (Array.isArray(src)) ml.value = src.join('\n');
+      else if (typeof src === 'string') ml.value = src;
+      // else leave empty
+      if (typeof onChange === 'function') onChange();
     }
   };
 
   var oldSave = window.save;
-  window.save = function (callback) {
-    var list = [];
-    var rows = document.querySelectorAll('#devices-tbody tr');
-    rows.forEach(function (tr) {
-      var obj = {};
-      tr.querySelectorAll('input.value').forEach(function (inp) {
-        var key = inp.dataset.field;
-        var val = inp.value;
-        if (inp.type === 'number' && val !== '') val = Number(val);
-        obj[key] = val;
-      });
-      if (Object.values(obj).some(function (v) { return v !== '' && v !== null && v !== undefined; })) {
-        list.push(obj);
-      }
-    });
+  window.save = function (cb) {
     if (typeof oldSave === 'function') {
       oldSave(function (obj) {
         obj = obj || {};
-        obj.devices = list;
-        callback(obj);
+        // Take manualList from textarea and convert to array
+        var ml = document.getElementById('manualList');
+        if (ml) {
+          obj.manualList = ml.value.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+        }
+        // Ensure option2 has numeric default 0 if empty string
+        if (obj.option2 === '' || obj.option2 === undefined || obj.option2 === null) {
+          obj.option2 = 0;
+        }
+        cb(obj);
       });
     } else {
-      callback({ devices: list });
+      var obj = {};
+      var el2 = document.getElementById('option2');
+      if (el2) obj.option2 = el2.value || 0;
+      var ml = document.getElementById('manualList');
+      if (ml) obj.manualList = ml.value.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+      cb(obj);
     }
   };
 })();

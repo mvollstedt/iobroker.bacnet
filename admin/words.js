@@ -4,38 +4,8 @@
 'use strict';
 
 systemDictionary = {
-    "add_device": {
-        "en": "Add device",
-        "de": "Gerät hinzufügen"
-    },
-    "property_id": {
-        "en": "Property ID",
-        "de": "Property‑ID"
-    },
-    "instance": {
-        "en": "Instance",
-        "de": "Instanz"
-    },
-    "object_type": {
-        "en": "Object type",
-        "de": "Objekt‑Typ"
-    },
-    "device_id": {
-        "en": "Device ID",
-        "de": "Geräte‑ID"
-    },
-    "ip_address": {
-        "en": "IP address",
-        "de": "IP‑Adresse"
-    },
-    "name": {
-        "en": "Name",
-        "de": "Name"
-    },
-    "manual_devices": {
-        "en": "Manual BACnet devices",
-        "de": "Manuelle BACnet‑Geräte"
-    },
+    "manual_list_hint": { "en": "One item per line", "de": "Eine Zeile pro Eintrag" },
+    "manual_list": { "en": "Manual list", "de": "Manuelle Liste" },
 	'bacnet adapter settings': {
 		'en': 'Adapter settings for bacnet',
 		'de': 'Adaptereinstellungen für bacnet',
