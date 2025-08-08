@@ -4,6 +4,11 @@
 'use strict';
 
 systemDictionary = {
+    "dp_hint": { "en": "Use + to add. Existing states are auto-detected.", "de": "Mit + hinzufügen. Vorhandene States werden automatisch angezeigt." },
+    "add_dp": { "en": "Add datapoint", "de": "Datenpunkt hinzufügen" },
+    "exists": { "en": "Exists", "de": "Vorhanden" },
+    "dp_name": { "en": "Name", "de": "Name" },
+    "datapoints": { "en": "Datapoints", "de": "Datenpunkte" },
     "manual_list_hint": { "en": "One item per line", "de": "Eine Zeile pro Eintrag" },
     "manual_list": { "en": "Manual list", "de": "Manuelle Liste" },
 	'bacnet adapter settings': {

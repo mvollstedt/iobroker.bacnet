@@ -92,7 +92,24 @@
                 <span class="helper-text translate">manual_list_hint</span>
             </div>
 
-			</div>
+			
+            <!-- DP_LIST_BLOCK -->
+            <div class="col s12">
+                <h6 class="translate">datapoints</h6>
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th class="translate">dp_name</th>
+                            <th class="translate">exists</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="dp-tbody"></tbody>
+                </table>
+                <a id="dp-add" class="btn waves-effect waves-light"><i class="material-icons left">add</i><span class="translate">add_dp</span></a>
+                <div class="helper-text translate" data-translate="dp_hint"> </div>
+            </div>
+    
 		</div>
 
 	</div>
@@ -153,6 +170,119 @@
 })();
 </script>
 
+
+    <!-- DP_LIST_SCRIPT -->
+    <script>
+    (function() {
+        function addRow(name, alreadyExists) {
+            var tbody = document.getElementById('dp-tbody');
+            var tr = document.createElement('tr');
+            var tdName = document.createElement('td');
+            var inp = document.createElement('input');
+            inp.type = 'text';
+            inp.className = 'dp-name';
+            if (name) inp.value = name;
+            inp.addEventListener('change', function(){ if (typeof onChange === 'function') onChange(); });
+            tdName.appendChild(inp);
+            tr.appendChild(tdName);
+
+            var tdExists = document.createElement('td');
+            tdExists.className = 'dp-exists';
+            tdExists.textContent = alreadyExists ? '✓' : '';
+            tr.appendChild(tdExists);
+
+            var tdDel = document.createElement('td');
+            var btn = document.createElement('a');
+            btn.className = 'btn-flat red-text';
+            btn.innerHTML = '<i class="material-icons">delete</i>';
+            btn.addEventListener('click', function(){
+                tr.parentNode.removeChild(tr);
+                if (typeof onChange === 'function') onChange();
+            });
+            tdDel.appendChild(btn);
+            tr.appendChild(tdDel);
+
+            tbody.appendChild(tr);
+        }
+
+        function rowsToList() {
+            var list = [];
+            document.querySelectorAll('#dp-tbody tr').forEach(function(tr){
+                var name = tr.querySelector('input.dp-name').value.trim();
+                if (name) list.push(name);
+            });
+            return list;
+        }
+
+        var onChange = null;
+        var oldLoad = window.load;
+        window.load = function(settings, _onChange) {
+            onChange = _onChange;
+            if (typeof oldLoad === 'function') oldLoad(settings, _onChange);
+            settings = settings || {};
+            document.getElementById('dp-tbody').innerHTML = '';
+
+            var dps = settings.datapoints;
+            if (Array.isArray(dps)) {
+                dps.forEach(function(n){ addRow(n, false); });
+            }
+
+            // Read existing states under this adapter namespace and show those too
+            var prefix = adapter + '.' + instance + '.';
+            socket.emit('getObjectView', 'system', 'state', {startkey: prefix, endkey: prefix + '\u9999'}, function (err, res) {
+                if (!err && res && res.rows) {
+                    var existing = {};
+                    res.rows.forEach(function(r){
+                        if (r && r.value && r.value._id) {
+                            var id = r.value._id;
+                            // Expect ids like adapter.instance.datapoints.NAME or similar; show tail part
+                            var name = id.substring(prefix.length);
+                            var shortName = name.replace(/^datapoints\./, '');
+                            existing[shortName] = true;
+                        }
+                    });
+                    // mark existing rows
+                    document.querySelectorAll('#dp-tbody tr').forEach(function(tr){
+                        var name = tr.querySelector('input.dp-name').value.trim();
+                        tr.querySelector('td.dp-exists').textContent = existing[name] ? '✓' : '';
+                    });
+                    // Add rows for existing that are not yet listed
+                    Object.keys(existing).forEach(function(n){
+                        var found = false;
+                        document.querySelectorAll('#dp-tbody tr input.dp-name').forEach(function(inp){
+                            if (inp.value.trim() === n) found = true;
+                        });
+                        if (!found && n) addRow(n, true);
+                    });
+                }
+            });
+
+            var addBtn = document.getElementById('dp-add');
+            if (addBtn && !addBtn.dataset.bound) {
+                addBtn.dataset.bound = '1';
+                addBtn.addEventListener('click', function(){
+                    addRow('', false);
+                    if (typeof onChange === 'function') onChange();
+                });
+            }
+        };
+
+        var oldSave = window.save;
+        window.save = function(callback) {
+            var list = rowsToList();
+            if (typeof oldSave === 'function') {
+                oldSave(function(obj){
+                    obj = obj || {};
+                    obj.datapoints = list;
+                    callback(obj);
+                });
+            } else {
+                callback({ datapoints: list });
+            }
+        };
+    })();
+    </script>
+    
 </body>
 
 </html>

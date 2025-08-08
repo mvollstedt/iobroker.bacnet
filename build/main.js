@@ -36,6 +36,14 @@ class Bacnet extends utils.Adapter {
    * Is called when databases are connected and adapter received configuration.
    */
   async onReady() {
+        const list = Array.isArray(this.config.datapoints) ? this.config.datapoints : [];
+        for (const raw of list) {
+            const name = String(raw).trim();
+            if (!name) continue;
+            const id = `datapoints.${name.replace(/[^A-Za-z0-9_\-]/g,'_')}`;
+            await this.setObjectNotExistsAsync(id, { type: 'state', common: { name, type: 'string', role: 'state', read: true, write: true }, native: {} });
+        }
+
     this.log.info("BACnet Adapter gestartet");
     this.log.info("config option1: " + this.config.option1);
     this.log.info("config option2: " + this.config.option2);

@@ -1,91 +1,91 @@
 {
-	"common": {
-		"name": "bacnet",
-		"version": "0.0.1",
-		"news": {
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"uk": "Початкова версія",
-				"zh-cn": "首次出版"
-			}
-		},
-		"titleLang": {
-			"en": "BACnet",
-			"de": "BACNET",
-			"ru": "Бакнет",
-			"pt": "Bacnet",
-			"nl": "Bacnet",
-			"fr": "Bacnet",
-			"it": "Bacnet",
-			"es": "Bacina",
-			"pl": "BACNET",
-			"uk": "Бакет",
-			"zh-cn": "BACNET"
-		},
-		"desc": {
-			"en": "BACnet Adapter für ioBroker (Wolf CKL 2400 EVO)",
-			"de": "BACNET -Adapter für IOBROKER (Wolf CKL 2400 EVO)",
-			"ru": "Адаптер Bacnet für iobroker (Wolf Ckl 2400 Evo)",
-			"pt": "Adaptador Bacnet Für Iobroker (Wolf CKL 2400 EVO)",
-			"nl": "Bacnet -adapter Für IoBroker (Wolf Ckl 2400 Evo)",
-			"fr": "Adaptateur Bacnet Für Iobroker (Wolf CKL 2400 EVO)",
-			"it": "Adattatore Bacnet Für IoBroker (Wolf CKL 2400 EVO)",
-			"es": "Adaptador BACNET Für Iobroker (Wolf CKL 2400 EVO)",
-			"pl": "Adapter BACNET Für Iobrook (Wolf CKL 2400 EVO)",
-			"uk": "BACNET ADAPTER FüR IOBROKER (WOLF CKL 2400 EVO)",
-			"zh-cn": "BACNET适配器FürIobroker（Wolf CKL 2400 EVO）"
-		},
-		"authors": [
-			"mvollstedt <mvollstedt@gmx.de>"
-		],
-		"keywords": [
-			"ioBroker",
-			"template",
-			"Smart Home",
-			"home automation"
-		],
-		"licenseInformation": {
-			"type": "free",
-			"license": "MIT"
-		},
-		"platform": "Javascript/Node.js",
-		"icon": "bacnet.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/mvollstedt/ioBroker.bacnet/main/admin/bacnet.png",
-		"readme": "https://github.com/mvollstedt/ioBroker.bacnet/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"mode": "daemon",
-		"type": "climate-control",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=6.0.11"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=7.0.0"
-			}
-		]
-	},
-	"native": {
-		"option1": true,
-		"option2": "42"
-	},
-	"objects": [],
-	"instanceObjects": []
+  "common": {
+    "name": "bacnet",
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "uk": "Початкова версія",
+        "zh-cn": "首次出版"
+      }
+    },
+    "titleLang": {
+      "en": "BACnet",
+      "de": "BACNET",
+      "ru": "Бакнет",
+      "pt": "Bacnet",
+      "nl": "Bacnet",
+      "fr": "Bacnet",
+      "it": "Bacnet",
+      "es": "Bacina",
+      "pl": "BACNET",
+      "uk": "Бакет",
+      "zh-cn": "BACNET"
+    },
+    "desc": {
+      "en": "BACnet Adapter für ioBroker (Wolf CKL 2400 EVO)",
+      "de": "BACNET -Adapter für IOBROKER (Wolf CKL 2400 EVO)",
+      "ru": "Адаптер Bacnet für iobroker (Wolf Ckl 2400 Evo)",
+      "pt": "Adaptador Bacnet Für Iobroker (Wolf CKL 2400 EVO)",
+      "nl": "Bacnet -adapter Für IoBroker (Wolf Ckl 2400 Evo)",
+      "fr": "Adaptateur Bacnet Für Iobroker (Wolf CKL 2400 EVO)",
+      "it": "Adattatore Bacnet Für IoBroker (Wolf CKL 2400 EVO)",
+      "es": "Adaptador BACNET Für Iobroker (Wolf CKL 2400 EVO)",
+      "pl": "Adapter BACNET Für Iobrook (Wolf CKL 2400 EVO)",
+      "uk": "BACNET ADAPTER FüR IOBROKER (WOLF CKL 2400 EVO)",
+      "zh-cn": "BACNET适配器FürIobroker（Wolf CKL 2400 EVO）"
+    },
+    "authors": [
+      "mvollstedt <mvollstedt@gmx.de>"
+    ],
+    "keywords": [
+      "ioBroker",
+      "template",
+      "Smart Home",
+      "home automation"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "bacnet.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/mvollstedt/ioBroker.bacnet/main/admin/bacnet.png",
+    "readme": "https://github.com/mvollstedt/ioBroker.bacnet/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "climate-control",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.0.23"
+      }
+    ]
+  },
+  "native": {
+    "option1": true,
+    "option2": "42"
+  },
+  "objects": [],
+  "instanceObjects": []
 }
