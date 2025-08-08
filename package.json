@@ -22,7 +22,8 @@
     "node": ">= 20"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.3"
+    "@iobroker/adapter-core": "^3.2.3",
+    "@biancoroyal/node-bacstack": "^1.2.6"
   },
   "devDependencies": {
     "@iobroker/adapter-dev": "^1.4.0",
