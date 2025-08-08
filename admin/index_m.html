@@ -67,6 +67,19 @@
 
 	<div class="m adapter-container">
 
+		
+            <!-- CONNECTION SETTINGS -->
+            <div class="row">
+                <div class="col s6 input-field">
+                    <input type="text" class="value" id="host" />
+                    <label for="host" class="translate">conn_host</label>
+                </div>
+                <div class="col s6 input-field">
+                    <input type="number" class="value" id="port" />
+                    <label for="port" class="translate">conn_port</label>
+                </div>
+            </div>
+
 		<div class="row">
 			<div class="col s12 m4 l2">
 				<img src="bacnet.png" class="logo">
@@ -283,6 +296,31 @@
     })();
     </script>
     
+
+<!-- CONNECTION DEFAULTS PATCH -->
+<script>
+(function(){
+  var oldLoad = window.load;
+  window.load = function(settings, onChange){
+    if (typeof oldLoad === 'function') oldLoad(settings, onChange);
+    settings = settings || {};
+    var host = document.getElementById('host');
+    if (host && (settings.host === undefined || settings.host === null)) {
+      host.value = '';
+      if (typeof onChange === 'function') onChange();
+    }
+    var port = document.getElementById('port');
+    if (port) {
+      var val = settings.port;
+      if (val === undefined || val === null || val === '') {
+        port.value = 47808; // Standard BACnet/IP UDP-Port
+        if (typeof onChange === 'function') onChange();
+      }
+    }
+  };
+})();
+</script>
+
 </body>
 
 </html>

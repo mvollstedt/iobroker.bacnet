@@ -4,6 +4,8 @@
 'use strict';
 
 systemDictionary = {
+    "conn_port": { "en": "Port", "de": "Port" },
+    "conn_host": { "en": "IP address / Host", "de": "IP-Adresse / Host" },
     "dp_hint": { "en": "Use + to add. Existing states are auto-detected.", "de": "Mit + hinzufügen. Vorhandene States werden automatisch angezeigt." },
     "add_dp": { "en": "Add datapoint", "de": "Datenpunkt hinzufügen" },
     "exists": { "en": "Exists", "de": "Vorhanden" },
