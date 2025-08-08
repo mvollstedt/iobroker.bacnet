@@ -1,4 +1,4 @@
-let BACNET_AVAILABLE = true; let BacnetLib; try { BacnetLib = require('@biancoroyal/node-bacstack'); } catch (e) { BACNET_AVAILABLE = false; }
+let BACNET_AVAILABLE = true; let BacnetLib; try { BacnetLib = require('bacstack'); } catch (e) { BACNET_AVAILABLE = false; }
 "use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
