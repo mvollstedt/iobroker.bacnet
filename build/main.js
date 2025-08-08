@@ -1,5 +1,5 @@
 "use strict";
-const Bacnet = require('bacstack');
+const BacnetStack = require('bacstack');
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -51,7 +51,7 @@ class Bacnet extends utils.Adapter {
             await this.setStateAsync('connection.port', port, true);
 
             if (!this.bacnetClient) {
-                this.bacnetClient = new Bacnet({adpuTimeout: 6000, port: port});
+                this.bacnetClient = new BacnetStack({adpuTimeout: 6000, port: port});
                 this.log.info(`BACnet client started on UDP ${port}`);
                 this._iamHandler = (data) => {
                     try {
@@ -172,8 +172,8 @@ class Bacnet extends utils.Adapter {
   // }
 }
 if (require.main !== module) {
-  module.exports = (options) => new Bacnet(options);
+  module.exports = (options) => new BacnetStack(options);
 } else {
-  (() => new Bacnet())();
+  (() => new BacnetStack())();
 }
 //# sourceMappingURL=main.js.map
